@@ -114,7 +114,7 @@ function TiltCard({ video, large = false }: { video: any, large?: boolean }) {
 
 export default function VideoWorks() {
     return (
-        <section className="relative w-full min-h-screen bg-[#050505] text-white py-32 px-8 md:px-24 z-20 overflow-hidden">
+        <section id="videoworks" className="relative w-full min-h-screen bg-[#050505] text-white py-32 px-8 md:px-24 z-20 overflow-hidden">
             {/* Background ambient glow matching cinematic vibe */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-600/10 rounded-full blur-[120px] pointer-events-none" />
 

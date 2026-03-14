@@ -39,7 +39,7 @@ const projects = [
 
 export default function Projects() {
     return (
-        <section className="relative w-full min-h-screen bg-[#0a0a0a] text-white py-32 px-8 md:px-24 z-20">
+        <section id="projects" className="relative w-full min-h-screen bg-[#0a0a0a] text-white py-32 px-8 md:px-24 z-20">
             <div className="max-w-7xl mx-auto">
                 <h2 className="text-4xl md:text-5xl font-bold mb-16 tracking-tight">Projects</h2>
 
