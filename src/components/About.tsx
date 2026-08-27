@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { motion } from "framer-motion";
@@ -15,7 +16,7 @@ export default function About() {
                 >
                     <div className="relative aspect-square md:aspect-[4/5] rounded-3xl overflow-hidden bg-gray-900 border border-white/10 shadow-[0_0_50px_rgba(255,255,255,0.05)]">
                         <img
-                            src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=1200"
+                            src="/Image About me.png"
                             alt="About Me"
                             className="w-full h-full object-cover opacity-80"
                         />
