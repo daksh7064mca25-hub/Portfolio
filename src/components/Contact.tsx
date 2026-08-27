@@ -35,10 +35,10 @@ export default function Contact() {
                     transition={{ duration: 0.6, delay: 0.2 }}
                     className="flex flex-col md:flex-row gap-6 justify-center items-center"
                 >
-                    <a href="mailto:hello@example.com" className="px-10 py-5 rounded-full bg-white text-black font-semibold tracking-wide hover:scale-105 transition-transform duration-300">
+                    <a href="mailto:dakshbabbar3131@gmail.com" className="px-10 py-5 rounded-full bg-white text-black font-semibold tracking-wide hover:scale-105 transition-transform duration-300">
                         Send an Email
                     </a>
-                    <a href="https://linkedin.com" target="_blank" className="px-10 py-5 rounded-full border border-white/20 text-white font-semibold tracking-wide hover:bg-white/5 transition-colors duration-300">
+                    <a href="www.linkedin.com/in/daksh-babbar-5208ab315" target="_blank" className="px-10 py-5 rounded-full border border-white/20 text-white font-semibold tracking-wide hover:bg-white/5 transition-colors duration-300">
                         LinkedIn Profile
                     </a>
                 </motion.div>

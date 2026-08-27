@@ -22,18 +22,22 @@ const projects = [
         description: "An AI-powered smart preparation engine that builds ATS-optimized resumes, tracks skill gaps, and turns your career goals into a step-by-step success roadmap.",
         tags: ["React", "Tailwind CSS", "API key Integration"],
         image: "/prep-ai-bg.jpeg",
+        liveUrl: "https://prepai-ecru.vercel.app/",
+        githubUrl: "https://github.com/daksh7064mca25-hub/PrepAI",
     },
     {
-        title: "Employee Attendance System",
-        description: "A comprehensive employee attendance management system that streamlines attendance tracking, leave management, and reporting for organizations.",
-        tags: ["Next.js", "Tailwind", "D3.js"],
+        title: "Employee Asset & Leave Management System",
+        description: "A full-stack employee management platform for managing employees, company assets, and leave workflows with authentication, dashboards, image uploads, and approval operations.",
+        tags: ["MERN", "JWT", "Multer"],
         image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2940&auto=format&fit=crop",
+        liveUrl: "https://employee-leave-and-asset-management.vercel.app/login",
     },
     {
-        title: "E-Commerce Reimagined",
-        description: "Modern headless architecture for next-generation shopping experiences.",
-        tags: ["Shopify", "Remix", "TypeScript"],
+        title: "Stripe Revenue Management SaaS",
+        description: "A full-stack Stripe-powered platform for subscription, payment, and revenue management with role-based access, webhooks, financial tracking, and automated revenue distribution.",
+        tags: ["MERN", "Stripe", "JWT"],
         image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop",
+        liveUrl: "https://plans-and-stripe-management-system.vercel.app/",
     }
 ];
 
@@ -67,12 +71,16 @@ export default function Projects() {
                                     ))}
                                 </div>
                                 <div className="flex items-center gap-6 text-gray-400">
-                                    <a href="https://prepai-ecru.vercel.app/" target="_blank" className="hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
-                                        <ExternalLinkIcon /> Live Site
-                                    </a>
-                                    <a href="https://github.com/daksh7064mca25-hub/PrepAI" target="_blank" className="hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
-                                        <GithubIcon /> Source
-                                    </a>
+                                    {(project as any).liveUrl && (
+                                        <a href={(project as any).liveUrl} target="_blank" className="hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
+                                            <ExternalLinkIcon /> Live Site
+                                        </a>
+                                    )}
+                                    {(project as any).githubUrl && (
+                                        <a href={(project as any).githubUrl} target="_blank" className="hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
+                                            <GithubIcon /> Source
+                                        </a>
+                                    )}
                                 </div>
                             </div>
                         </div>
