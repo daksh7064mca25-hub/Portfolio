@@ -19,34 +19,34 @@ interface VideoProject {
 
 const videos: VideoProject[] = [
     {
-        title: "Cinematic Reel 2024",
+        title: "Motion Graphics Showreel",
         category: "Showreel",
-        description: "A showcase of narrative and commercial cinematography work from 2024.",
-        thumbnail: "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&q=80&w=1000",
-        videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", // Standard YouTube link
-        tags: ["Color Grading", "Cinematography", "Premiere Pro"],
-        duration: "2:15",
-        role: "Director & Editor"
+        description: "A dynamic showcase of kinetic typography, visual effects, and high-energy motion design sequences crafted in Adobe After Effects.",
+        thumbnail: "/videos/reel_thumb.jpg",
+        videoUrl: "/videos/Final Reel-.mp4",
+        tags: ["After Effects", "Motion Design", "Visual Effects", "Kinetic Type"],
+        duration: "Showreel",
+        role: "Motion Designer & Editor"
     },
     {
-        title: "Neon Shadows",
-        category: "Music Video",
-        description: "An energetic and atmospheric neon-infused music video project.",
-        thumbnail: "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?auto=format&fit=crop&q=80&w=1000",
-        videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-        tags: ["Editing", "VFX", "After Effects"],
-        duration: "3:40",
-        role: "Lead Editor & VFX"
+        title: "SaaS Product & UI Animation",
+        category: "Product Motion",
+        description: "Engaging product walkthrough and interface motion graphics demonstrating SaaS platform workflows, analytics metrics, and micro-interactions.",
+        thumbnail: "/videos/saas_thumb.jpg",
+        videoUrl: "/videos/SAAS Animation.mp4",
+        tags: ["After Effects", "UI Animation", "SaaS Promo", "Figma to AE"],
+        duration: "Promo",
+        role: "UI & Motion Designer"
     },
     {
-        title: "The Urban Explorer",
-        category: "Documentary",
-        description: "A deep dive into the lives and stories of urban explorers climbing hidden heights.",
-        thumbnail: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80&w=1000",
-        videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-        tags: ["Sound Design", "Pacing", "DaVinci Resolve"],
-        duration: "5:20",
-        role: "Sound Editor & Colorist"
+        title: "Kinetic Logo Reveal",
+        category: "Brand Motion",
+        description: "Sleek 3D and 2D logo animation with fluid easing curves, glowing particle accents, and impactful brand identity motion.",
+        thumbnail: "/videos/logo_thumb.jpg",
+        videoUrl: "/videos/Final Logo Animation.mp4",
+        tags: ["After Effects", "Logo Animation", "Brand Identity", "3D Motion"],
+        duration: "Ident",
+        role: "Motion Designer"
     }
 ];
 
@@ -94,9 +94,9 @@ export default function VideoWorks() {
             <div className="max-w-7xl mx-auto relative z-10">
                 {/* Header matching Projects style but with a subtext */}
                 <div className="mb-16">
-                    <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">Video Editing</h2>
+                    <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">Motion Graphics & Video</h2>
                     <p className="text-gray-400 text-base md:text-lg max-w-2xl font-light">
-                        Crafting visual narratives through motion, pacing, and color grading. Click any card to play.
+                        High-impact motion design, kinetic typography, UI animations, and brand reveals crafted in Adobe After Effects. Click any card to play.
                     </p>
                 </div>
 
@@ -210,7 +210,7 @@ export default function VideoWorks() {
                             ) : embedInfo.type === "direct" ? (
                                 <video
                                     src={embedInfo.url}
-                                    className="w-full h-full"
+                                    className="w-full h-full object-contain bg-black"
                                     controls
                                     autoPlay
                                     playsInline

@@ -1,18 +1,18 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+
+// Frame sequence from frame_000 to frame_191
+const frameCount = 192;
+const imageUrls = Array.from({ length: frameCount }, (_, i) =>
+  `/sequence/frame_${i.toString().padStart(3, "0")}_delay-0.041s.png`
+);
 
 export default function ScrollyCanvas() {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [images, setImages] = useState<HTMLImageElement[]>([]);
-  
-  // Frame sequence from frame_000 to frame_191
-  const frameCount = 192;
-  const imageUrls = Array.from({ length: frameCount }, (_, i) => 
-    `/sequence/frame_${i.toString().padStart(3, "0")}_delay-0.041s.png`
-  );
 
   useEffect(() => {
     // Preload images into memory
@@ -37,17 +37,7 @@ export default function ScrollyCanvas() {
 
   const frameIndex = useTransform(scrollYProgress, [0, 1], [0, frameCount - 1]);
 
-  useMotionValueEvent(frameIndex, "change", (latest) => {
-    if (images.length > 0 && canvasRef.current) {
-      const currentFrame = Math.min(Math.round(latest), frameCount - 1);
-      const img = images[currentFrame];
-      if (img && img.complete) {
-        drawOntoCanvas(img);
-      }
-    }
-  });
-
-  const drawOntoCanvas = (img: HTMLImageElement) => {
+  const drawOntoCanvas = useCallback((img: HTMLImageElement) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -56,7 +46,7 @@ export default function ScrollyCanvas() {
     // Object-fit: cover calculation
     const canvasRatio = canvas.width / canvas.height;
     const imgRatio = img.width / img.height;
-    
+
     let renderWidth, renderHeight, offsetX, offsetY;
 
     if (canvasRatio > imgRatio) {
@@ -76,23 +66,39 @@ export default function ScrollyCanvas() {
     ctx.fillStyle = "#121212";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(img, offsetX, offsetY, renderWidth, renderHeight);
-  };
+  }, []);
+
+  useMotionValueEvent(frameIndex, "change", (latest) => {
+    if (images.length > 0 && canvasRef.current) {
+      const currentFrame = Math.min(Math.round(latest), frameCount - 1);
+      const img = images[currentFrame];
+      if (img && img.complete) {
+        drawOntoCanvas(img);
+      }
+    }
+  });
 
   useEffect(() => {
     const handleResize = () => {
       if (canvasRef.current && images.length > 0) {
         canvasRef.current.width = window.innerWidth;
         canvasRef.current.height = window.innerHeight;
-        drawOntoCanvas(images[Math.round(frameIndex.get())]);
+        const currentIdx = Math.min(Math.round(frameIndex.get()), frameCount - 1);
+        if (images[currentIdx]) {
+          drawOntoCanvas(images[currentIdx]);
+        }
       }
     };
 
     window.addEventListener("resize", handleResize);
     // Initial setup with short delay for first images to load
-    setTimeout(() => { handleResize(); }, 100);
+    const timer = setTimeout(() => { handleResize(); }, 100);
 
-    return () => window.removeEventListener("resize", handleResize);
-  }, [images]);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      clearTimeout(timer);
+    };
+  }, [images, frameIndex, drawOntoCanvas]);
 
   return (
     <div ref={containerRef} className="relative w-full h-[500vh] bg-[#121212]">

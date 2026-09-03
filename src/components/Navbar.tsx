@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
-import Link from "next/link";
 
 const navLinks = [
     { name: "Home", href: "#home" },

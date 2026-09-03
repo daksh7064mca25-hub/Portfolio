@@ -16,7 +16,16 @@ const GithubIcon = () => (
     </svg>
 );
 
-const projects = [
+interface Project {
+    title: string;
+    description: string;
+    tags: string[];
+    image: string;
+    liveUrl?: string;
+    githubUrl?: string;
+}
+
+const projects: Project[] = [
     {
         title: "PrepAI",
         description: "An AI-powered smart preparation engine that builds ATS-optimized resumes, tracks skill gaps, and turns your career goals into a step-by-step success roadmap.",
@@ -71,13 +80,13 @@ export default function Projects() {
                                     ))}
                                 </div>
                                 <div className="flex items-center gap-6 text-gray-400">
-                                    {(project as any).liveUrl && (
-                                        <a href={(project as any).liveUrl} target="_blank" className="hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
+                                    {project.liveUrl && (
+                                        <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
                                             <ExternalLinkIcon /> Live Site
                                         </a>
                                     )}
-                                    {(project as any).githubUrl && (
-                                        <a href={(project as any).githubUrl} target="_blank" className="hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
+                                    {project.githubUrl && (
+                                        <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
                                             <GithubIcon /> Source
                                         </a>
                                     )}

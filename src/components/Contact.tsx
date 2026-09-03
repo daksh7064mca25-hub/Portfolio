@@ -38,7 +38,7 @@ export default function Contact() {
                     <a href="mailto:dakshbabbar3131@gmail.com" className="px-10 py-5 rounded-full bg-white text-black font-semibold tracking-wide hover:scale-105 transition-transform duration-300">
                         Send an Email
                     </a>
-                    <a href="www.linkedin.com/in/daksh-babbar-5208ab315" target="_blank" className="px-10 py-5 rounded-full border border-white/20 text-white font-semibold tracking-wide hover:bg-white/5 transition-colors duration-300">
+                    <a href="https://www.linkedin.com/in/daksh-babbar-5208ab315" target="_blank" rel="noopener noreferrer" className="px-10 py-5 rounded-full border border-white/20 text-white font-semibold tracking-wide hover:bg-white/5 transition-colors duration-300">
                         LinkedIn Profile
                     </a>
                 </motion.div>
