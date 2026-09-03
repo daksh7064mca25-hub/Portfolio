@@ -87,29 +87,29 @@ export default function VideoWorks() {
     const embedInfo = activeVideo ? getEmbedInfo(activeVideo.videoUrl) : { type: "none", url: "" };
 
     return (
-        <section id="videoworks" className="relative w-full bg-[#050505] text-white py-32 px-8 md:px-24 border-t border-white/5 z-20">
-            {/* Ambient background glow matching cinematic vibe */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-600/5 rounded-full blur-[120px] pointer-events-none" />
+        <section id="videoworks" className="relative w-full bg-[#050505] text-white py-24 sm:py-32 px-4 sm:px-8 md:px-16 lg:px-24 border-t border-white/5 z-20">
+            {/* Ambient background glow */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] sm:w-[600px] md:w-[800px] h-[350px] sm:h-[600px] md:h-[800px] bg-purple-600/10 rounded-full blur-[100px] md:blur-[140px] pointer-events-none" />
 
             <div className="max-w-7xl mx-auto relative z-10">
-                {/* Header matching Projects style but with a subtext */}
-                <div className="mb-16">
-                    <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">Motion Graphics & Video</h2>
-                    <p className="text-gray-400 text-base md:text-lg max-w-2xl font-light">
+                {/* Header */}
+                <div className="mb-10 sm:mb-16">
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 tracking-tight">Motion Graphics & Video</h2>
+                    <p className="text-gray-400 text-sm sm:text-base md:text-lg max-w-2xl font-light">
                         High-impact motion design, kinetic typography, UI animations, and brand reveals crafted in Adobe After Effects. Click any card to play.
                     </p>
                 </div>
 
-                {/* 3-Column Grid matching Projects.tsx grid structure */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {/* 3-Column Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                     {videos.map((video, i) => (
                         <div
                             key={i}
                             onClick={() => setActiveVideo(video)}
-                            className="group relative rounded-2xl overflow-hidden bg-white/5 border border-white/10 backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(147,51,234,0.15)] hover:border-purple-500/30 cursor-pointer flex flex-col h-full"
+                            className="group relative rounded-2xl overflow-hidden bg-white/5 border border-white/10 backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(147,51,234,0.18)] hover:border-purple-500/30 cursor-pointer flex flex-col h-full"
                         >
                             {/* Thumbnail Image Section */}
-                            <div className="relative h-56 md:h-60 overflow-hidden bg-gray-900">
+                            <div className="relative h-48 sm:h-56 md:h-60 overflow-hidden bg-gray-900">
                                 <img
                                     src={video.thumbnail}
                                     alt={video.title}
@@ -117,41 +117,41 @@ export default function VideoWorks() {
                                 />
                                 
                                 {/* Black gradient overlay */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#050505]/70 via-transparent to-transparent" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#050505]/80 via-transparent to-transparent" />
 
                                 {/* Category Badge - Top Left */}
-                                <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 text-xs font-medium text-purple-300 flex items-center gap-1.5">
+                                <div className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-black/60 backdrop-blur-md px-2.5 sm:px-3 py-1 rounded-full border border-white/10 text-[11px] sm:text-xs font-medium text-purple-300 flex items-center gap-1.5">
                                     <Film className="w-3 h-3" />
                                     {video.category}
                                 </div>
 
                                 {/* Duration Badge - Bottom Right */}
-                                <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-md text-xs font-semibold text-gray-300 flex items-center gap-1">
-                                    <Clock className="w-3.5 h-3.5 text-white/70" />
+                                <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 bg-black/60 backdrop-blur-md px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-md text-[11px] sm:text-xs font-semibold text-gray-300 flex items-center gap-1">
+                                    <Clock className="w-3 h-3 text-white/70" />
                                     {video.duration}
                                 </div>
 
                                 {/* Animated Play Overlay */}
                                 <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                    <div className="w-14 h-14 rounded-full bg-purple-600/90 text-white flex items-center justify-center shadow-[0_0_20px_rgba(147,51,234,0.4)] scale-75 group-hover:scale-100 transition-transform duration-300 ease-out">
-                                        <Play className="w-6 h-6 fill-white ml-0.5" />
+                                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-purple-600/90 text-white flex items-center justify-center shadow-[0_0_20px_rgba(147,51,234,0.5)] scale-75 group-hover:scale-100 transition-transform duration-300 ease-out">
+                                        <Play className="w-5 h-5 sm:w-6 sm:h-6 fill-white ml-0.5" />
                                     </div>
                                 </div>
                             </div>
 
                             {/* Text Details Section */}
-                            <div className="p-6 flex flex-col flex-grow">
-                                <h3 className="text-xl md:text-2xl font-bold mb-2 tracking-tight group-hover:text-purple-300 transition-colors duration-300">
+                            <div className="p-5 sm:p-6 flex flex-col flex-grow">
+                                <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-1.5 tracking-tight group-hover:text-purple-300 transition-colors duration-300">
                                     {video.title}
                                 </h3>
                                 
                                 {video.role && (
-                                    <p className="text-xs text-purple-400 font-medium mb-3 uppercase tracking-wider">
+                                    <p className="text-[11px] sm:text-xs text-purple-400 font-medium mb-3 uppercase tracking-wider">
                                         {video.role}
                                     </p>
                                 )}
 
-                                <p className="text-gray-400 mb-5 leading-relaxed text-sm flex-grow">
+                                <p className="text-gray-400 mb-5 leading-relaxed text-xs sm:text-sm flex-grow">
                                     {video.description}
                                 </p>
 
@@ -159,7 +159,7 @@ export default function VideoWorks() {
                                     {video.tags.map((tag, j) => (
                                         <span
                                             key={j}
-                                            className="text-[11px] font-medium px-2.5 py-1 rounded-full bg-white/5 border border-white/5 text-gray-300"
+                                            className="text-[10px] sm:text-[11px] font-medium px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-white/5 border border-white/5 text-gray-300"
                                         >
                                             {tag}
                                         </span>
@@ -178,16 +178,16 @@ export default function VideoWorks() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-md p-4 md:p-8"
+                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-md p-3 sm:p-6 md:p-8"
                         onClick={() => setActiveVideo(null)}
                     >
                         {/* Close button */}
                         <button
-                            className="absolute top-4 right-4 md:top-6 md:right-6 text-white/70 hover:text-white bg-white/10 hover:bg-white/20 p-2.5 rounded-full transition-all duration-200 z-55"
+                            className="absolute top-3 right-3 sm:top-6 sm:right-6 text-white/70 hover:text-white bg-white/10 hover:bg-white/20 p-2 sm:p-2.5 rounded-full transition-all duration-200 z-55"
                             onClick={() => setActiveVideo(null)}
                             aria-label="Close video player"
                         >
-                            <X className="w-6 h-6" />
+                            <X className="w-5 h-5 sm:w-6 sm:h-6" />
                         </button>
 
                         {/* Modal Container */}
@@ -196,7 +196,7 @@ export default function VideoWorks() {
                             animate={{ scale: 1, y: 0 }}
                             exit={{ scale: 0.95, y: 20 }}
                             transition={{ type: "spring", duration: 0.5 }}
-                            className="relative w-full max-w-4xl bg-black/40 border border-white/10 rounded-2xl overflow-hidden shadow-2xl aspect-video"
+                            className="relative w-full max-w-4xl bg-black/60 border border-white/10 rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl aspect-video"
                             onClick={(e) => e.stopPropagation()}
                         >
                             {embedInfo.type === "youtube" || embedInfo.type === "vimeo" ? (

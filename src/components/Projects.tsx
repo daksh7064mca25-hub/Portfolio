@@ -52,42 +52,48 @@ const projects: Project[] = [
 
 export default function Projects() {
     return (
-        <section id="projects" className="relative w-full min-h-screen bg-[#0a0a0a] text-white py-32 px-8 md:px-24 z-20">
+        <section id="projects" className="relative w-full min-h-screen bg-[#0a0a0a] text-white py-24 sm:py-32 px-4 sm:px-8 md:px-16 lg:px-24 z-20">
             <div className="max-w-7xl mx-auto">
-                <h2 className="text-4xl md:text-5xl font-bold mb-16 tracking-tight">Projects</h2>
+                <div className="mb-10 sm:mb-16">
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-3">Featured Projects</h2>
+                    <p className="text-gray-400 text-sm sm:text-base md:text-lg max-w-2xl font-light">
+                        Full-stack web applications and AI-driven platforms built with modern technology stacks.
+                    </p>
+                </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
                     {projects.map((project, i) => (
                         <div
                             key={i}
-                            className="group relative rounded-2xl overflow-hidden bg-white/5 border border-white/10 backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(255,255,255,0.08)] hover:border-white/20"
+                            className="group relative rounded-2xl overflow-hidden bg-white/5 border border-white/10 backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_0_30px_rgba(255,255,255,0.08)] hover:border-white/20 flex flex-col h-full"
                         >
-                            <div className="h-64 overflow-hidden bg-gray-900">
+                            <div className="relative h-48 sm:h-56 md:h-60 overflow-hidden bg-gray-900">
                                 <img
                                     src={project.image}
                                     alt={project.title}
-                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100"
+                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
                                 />
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/80 via-transparent to-transparent" />
                             </div>
-                            <div className="p-8">
-                                <h3 className="text-2xl font-semibold mb-3 tracking-tight">{project.title}</h3>
-                                <p className="text-gray-400 mb-6 leading-relaxed text-sm md:text-base">{project.description}</p>
-                                <div className="flex flex-wrap gap-2 mb-8">
+                            <div className="p-5 sm:p-6 md:p-8 flex flex-col flex-grow">
+                                <h3 className="text-xl sm:text-2xl font-bold mb-2.5 tracking-tight group-hover:text-purple-300 transition-colors duration-300">{project.title}</h3>
+                                <p className="text-gray-400 mb-6 leading-relaxed text-sm flex-grow">{project.description}</p>
+                                <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-6 mt-auto">
                                     {project.tags.map((tag, j) => (
-                                        <span key={j} className="text-xs font-semibold px-3 py-1.5 rounded-full bg-white/10 text-gray-200">
+                                        <span key={j} className="text-[11px] sm:text-xs font-semibold px-2.5 sm:px-3 py-1 rounded-full bg-white/10 text-gray-200">
                                             {tag}
                                         </span>
                                     ))}
                                 </div>
-                                <div className="flex items-center gap-6 text-gray-400">
+                                <div className="flex items-center gap-5 text-gray-400 pt-2 border-t border-white/5">
                                     {project.liveUrl && (
-                                        <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
+                                        <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-2 text-xs sm:text-sm font-medium">
                                             <ExternalLinkIcon /> Live Site
                                         </a>
                                     )}
                                     {project.githubUrl && (
-                                        <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
-                                            <GithubIcon /> Source
+                                        <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-2 text-xs sm:text-sm font-medium">
+                                            <GithubIcon /> Source Code
                                         </a>
                                     )}
                                 </div>
