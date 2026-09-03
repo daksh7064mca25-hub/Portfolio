@@ -1,34 +1,20 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 
 // Frame sequence from frame_000 to frame_191
 const frameCount = 192;
-const imageUrls = Array.from({ length: frameCount }, (_, i) =>
-  `/sequence/frame_${i.toString().padStart(3, "0")}_delay-0.041s.png`
-);
+const getFrameUrl = (i: number) =>
+  `/sequence/frame_${i.toString().padStart(3, "0")}_delay-0.041s.webp`;
 
 export default function ScrollyCanvas() {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [images, setImages] = useState<HTMLImageElement[]>([]);
 
-  useEffect(() => {
-    // Preload images into memory
-    const loadedImages: HTMLImageElement[] = [];
-
-    imageUrls.forEach((url, i) => {
-      const img = new Image();
-      img.src = url;
-      img.onload = () => {
-        // Option to check loading status
-      };
-      loadedImages[i] = img;
-    });
-
-    setImages(loadedImages);
-  }, []);
+  // Cache loaded images in a ref to avoid unnecessary re-renders
+  const imagesRef = useRef<(HTMLImageElement | null)[]>(new Array(frameCount).fill(null));
+  const lastRenderedIndex = useRef<number>(0);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -39,11 +25,10 @@ export default function ScrollyCanvas() {
 
   const drawOntoCanvas = useCallback((img: HTMLImageElement) => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || !img.complete || img.naturalWidth === 0) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Object-fit: cover calculation
     const canvasRatio = canvas.width / canvas.height;
     const imgRatio = img.width / img.height;
 
@@ -62,43 +47,128 @@ export default function ScrollyCanvas() {
     }
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // Dark background applied globally, but can fill black to be safe
     ctx.fillStyle = "#121212";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(img, offsetX, offsetY, renderWidth, renderHeight);
   }, []);
 
-  useMotionValueEvent(frameIndex, "change", (latest) => {
-    if (images.length > 0 && canvasRef.current) {
-      const currentFrame = Math.min(Math.round(latest), frameCount - 1);
-      const img = images[currentFrame];
-      if (img && img.complete) {
-        drawOntoCanvas(img);
+  // Helper to render the closest available loaded frame to prevent any blank flickering
+  const renderClosestFrame = useCallback((targetIdx: number) => {
+    const images = imagesRef.current;
+
+    // 1. Direct hit
+    if (images[targetIdx]?.complete && images[targetIdx]?.naturalWidth !== 0) {
+      lastRenderedIndex.current = targetIdx;
+      drawOntoCanvas(images[targetIdx]!);
+      return;
+    }
+
+    // 2. Outward search for closest loaded frame
+    for (let offset = 1; offset < frameCount; offset++) {
+      const prev = targetIdx - offset;
+      if (prev >= 0 && images[prev]?.complete && images[prev]?.naturalWidth !== 0) {
+        lastRenderedIndex.current = prev;
+        drawOntoCanvas(images[prev]!);
+        return;
+      }
+      const next = targetIdx + offset;
+      if (next < frameCount && images[next]?.complete && images[next]?.naturalWidth !== 0) {
+        lastRenderedIndex.current = next;
+        drawOntoCanvas(images[next]!);
+        return;
       }
     }
-  });
+  }, [drawOntoCanvas]);
 
+  // Load and render Frame 0 IMMEDIATELY on mount + progressive batch loading
   useEffect(() => {
-    const handleResize = () => {
-      if (canvasRef.current && images.length > 0) {
+    const canvas = canvasRef.current;
+    if (canvas) {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    let isMounted = true;
+
+    // 1. Load Frame 0 with highest priority and draw right away
+    const frame0 = new Image();
+    frame0.src = getFrameUrl(0);
+    frame0.onload = () => {
+      if (!isMounted) return;
+      imagesRef.current[0] = frame0;
+      if (canvasRef.current) {
         canvasRef.current.width = window.innerWidth;
         canvasRef.current.height = window.innerHeight;
-        const currentIdx = Math.min(Math.round(frameIndex.get()), frameCount - 1);
-        if (images[currentIdx]) {
-          drawOntoCanvas(images[currentIdx]);
+        drawOntoCanvas(frame0);
+      }
+    };
+
+    // 2. High-priority batch (first 30 frames for immediate smooth scrolling)
+    const loadEarlyFrames = () => {
+      for (let i = 1; i < Math.min(30, frameCount); i++) {
+        if (!isMounted) break;
+        const img = new Image();
+        img.src = getFrameUrl(i);
+        img.onload = () => {
+          if (!isMounted) return;
+          imagesRef.current[i] = img;
+        };
+      }
+    };
+
+    // 3. Staggered background loading for the remaining frames
+    const loadRemainingFrames = () => {
+      const chunkSize = 20;
+      let currentIndex = 30;
+
+      const loadNextChunk = () => {
+        if (!isMounted || currentIndex >= frameCount) return;
+
+        const end = Math.min(currentIndex + chunkSize, frameCount);
+        for (let i = currentIndex; i < end; i++) {
+          const img = new Image();
+          img.src = getFrameUrl(i);
+          img.onload = () => {
+            if (!isMounted) return;
+            imagesRef.current[i] = img;
+          };
         }
+        currentIndex = end;
+        if (currentIndex < frameCount) {
+          setTimeout(loadNextChunk, 80);
+        }
+      };
+
+      setTimeout(loadNextChunk, 150);
+    };
+
+    loadEarlyFrames();
+    loadRemainingFrames();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [drawOntoCanvas]);
+
+  // Handle scroll animation smoothly
+  useMotionValueEvent(frameIndex, "change", (latest) => {
+    const currentFrame = Math.min(Math.max(0, Math.round(latest)), frameCount - 1);
+    renderClosestFrame(currentFrame);
+  });
+
+  // Handle window resizing
+  useEffect(() => {
+    const handleResize = () => {
+      if (canvasRef.current) {
+        canvasRef.current.width = window.innerWidth;
+        canvasRef.current.height = window.innerHeight;
+        renderClosestFrame(Math.min(Math.max(0, Math.round(frameIndex.get())), frameCount - 1));
       }
     };
 
     window.addEventListener("resize", handleResize);
-    // Initial setup with short delay for first images to load
-    const timer = setTimeout(() => { handleResize(); }, 100);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      clearTimeout(timer);
-    };
-  }, [images, frameIndex, drawOntoCanvas]);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [frameIndex, renderClosestFrame]);
 
   return (
     <div ref={containerRef} className="relative w-full h-[500vh] bg-[#121212]">
