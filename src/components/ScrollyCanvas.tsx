@@ -29,8 +29,12 @@ export default function ScrollyCanvas() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    // Ensure maximum bicubic/bilinear smoothing quality for crisp scaling
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
+
     const canvasRatio = canvas.width / canvas.height;
-    const imgRatio = img.width / img.height;
+    const imgRatio = img.naturalWidth / img.naturalHeight;
 
     let renderWidth, renderHeight, offsetX, offsetY;
 
@@ -80,13 +84,18 @@ export default function ScrollyCanvas() {
     }
   }, [drawOntoCanvas]);
 
+  // Configure high-DPI canvas dimensions
+  const updateCanvasDimensions = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(window.innerWidth * dpr);
+    canvas.height = Math.round(window.innerHeight * dpr);
+  }, []);
+
   // Load and render Frame 0 IMMEDIATELY on mount + progressive batch loading
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (canvas) {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
+    updateCanvasDimensions();
 
     let isMounted = true;
 
@@ -97,8 +106,7 @@ export default function ScrollyCanvas() {
       if (!isMounted) return;
       imagesRef.current[0] = frame0;
       if (canvasRef.current) {
-        canvasRef.current.width = window.innerWidth;
-        canvasRef.current.height = window.innerHeight;
+        updateCanvasDimensions();
         drawOntoCanvas(frame0);
       }
     };
@@ -148,7 +156,7 @@ export default function ScrollyCanvas() {
     return () => {
       isMounted = false;
     };
-  }, [drawOntoCanvas]);
+  }, [drawOntoCanvas, updateCanvasDimensions]);
 
   // Handle scroll animation smoothly
   useMotionValueEvent(frameIndex, "change", (latest) => {
@@ -160,15 +168,14 @@ export default function ScrollyCanvas() {
   useEffect(() => {
     const handleResize = () => {
       if (canvasRef.current) {
-        canvasRef.current.width = window.innerWidth;
-        canvasRef.current.height = window.innerHeight;
+        updateCanvasDimensions();
         renderClosestFrame(Math.min(Math.max(0, Math.round(frameIndex.get())), frameCount - 1));
       }
     };
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, [frameIndex, renderClosestFrame]);
+  }, [frameIndex, renderClosestFrame, updateCanvasDimensions]);
 
   return (
     <div ref={containerRef} className="relative w-full h-[500vh] bg-[#121212]">
