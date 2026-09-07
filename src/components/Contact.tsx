@@ -42,7 +42,7 @@ export default function Contact() {
                         Send an Email
                     </a>
                     <a
-                        href="https://www.linkedin.com/in/daksh-babbar-5208ab315"
+                        href="https://www.linkedin.com/in/dakshbabbar31"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="w-full sm:w-auto px-8 sm:px-10 py-4 sm:py-5 rounded-full border border-white/20 text-white font-semibold text-sm sm:text-base tracking-wide hover:bg-white/10 hover:border-white/40 transition-all duration-300 text-center"
