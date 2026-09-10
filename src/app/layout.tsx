@@ -24,9 +24,9 @@ export const metadata: Metadata = {
       "Portfolio of Daksh Babbar — Creative Developer, Motion Designer, and Full-Stack Engineer crafting immersive digital experiences.",
     images: [
       {
-        url: "/og-image.png",
+        url: "/sequence/frame_000_delay-0.041s.webp",
         width: 1200,
-        height: 1200,
+        height: 630,
         alt: "Daksh Babbar | Creative Developer & Motion Designer",
       },
     ],
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     title: "Daksh Babbar | Creative Developer & Motion Designer",
     description:
       "Portfolio of Daksh Babbar — Creative Developer, Motion Designer, and Full-Stack Engineer crafting immersive digital experiences.",
-    images: ["/og-image.png"],
+    images: ["/sequence/frame_000_delay-0.041s.webp"],
   },
 };
 
