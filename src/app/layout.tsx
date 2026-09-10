@@ -18,6 +18,27 @@ export const metadata: Metadata = {
   title: "Daksh Babbar | Creative Developer & Motion Designer",
   description: "Portfolio of Daksh Babbar — Creative Developer, Motion Designer, and Full-Stack Engineer crafting immersive digital experiences.",
   keywords: ["Daksh Babbar", "Creative Developer", "Motion Graphics", "After Effects", "Full Stack Developer", "Portfolio"],
+  openGraph: {
+    title: "Daksh Babbar | Creative Developer & Motion Designer",
+    description:
+      "Portfolio of Daksh Babbar — Creative Developer, Motion Designer, and Full-Stack Engineer crafting immersive digital experiences.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Daksh Babbar | Creative Developer & Motion Designer",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Daksh Babbar | Creative Developer & Motion Designer",
+    description:
+      "Portfolio of Daksh Babbar — Creative Developer, Motion Designer, and Full-Stack Engineer crafting immersive digital experiences.",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function RootLayout({
